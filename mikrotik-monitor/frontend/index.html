@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mikrotik Bandwidth Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl">
+
+        <h1 class="title-central">Mikrotik Bandwidth Monitor</h1>
+
+        <div class="container-ip-interface ">
+            <h2 class="text-ip">IP/Hostname: <span id="mikrotik-ip">--</span></h2>
+            <h2 class="text-interface">Interface: <span id="interface-atual">ether1</span></h2>
+
+        </div>
+
+        <canvas id="chart" class="my-4"></canvas>
+
+        <div class="container-bottom ">
+            <h2>Status: <span class="status-span text-red-600">Desconectado</span></h2>
+
+            <button id="pause-btn">
+                Pausar
+            </button>
+
+            <h2 id="text-interface">
+                Interface:
+                <select id="interface-select">
+                    <option value="ether1">ether1</option>
+                    <option value="ether2">ether2</option>
+                    <option value="ether3">ether3</option>
+                </select>
+            </h2>
+
+            <h2>
+                Última leitura: <span id="last-read"></span>
+            </h2>
+        </div>
+
+</body>
+
+</html>
