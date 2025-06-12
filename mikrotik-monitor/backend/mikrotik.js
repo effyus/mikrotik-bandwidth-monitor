@@ -3,9 +3,9 @@ const { RouterOSAPI } = require('node-routeros');
 class MikroTik {
   constructor() {
     this.client = new RouterOSAPI({
-      host: '192.168.88.1',  // seu IP
-      user: 'admin',         // seu usuário
-      password: '',          // sua senha
+      host: '192.168.88.1',  
+      user: 'admin',         
+      password: '',          
     });
   }
 

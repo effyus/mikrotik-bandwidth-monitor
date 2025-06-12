@@ -8,12 +8,11 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const mikrotik = new MikroTik();
 
-app.use(express.static('frontend')); // Certifique-se de que a pasta 'frontend' existe
+app.use(express.static('frontend'));
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado');
 
-    // Envia o IP do Mikrotik ao cliente
     socket.emit('mikrotikIp', mikrotik.host);
 
     let currentInterface = 'ether1';
@@ -43,7 +42,7 @@ io.on('connection', (socket) => {
         } catch (err) {
             console.error('Erro ao buscar dados do MikroTik:', err.message);
 
-            // Tenta reconectar se perder a conexão
+            
             mikrotik.connected = false;
             try {
                 await mikrotik.connect();
@@ -52,7 +51,7 @@ io.on('connection', (socket) => {
                 console.error('Falha ao reconectar ao MikroTik:', connectErr.message);
             }
         }
-    }, 1000); // Atualiza a cada 1 segundo
+    }, 1000);
 
     socket.on('disconnect', () => {
         clearInterval(interval);
