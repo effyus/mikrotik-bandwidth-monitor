@@ -8,10 +8,12 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const mikrotik = new MikroTik();
 
-app.use(express.static('frontend'));
+app.use(express.static('frontend')); // Certifique-se de que a pasta 'frontend' existe
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado');
+
+    // Envia o IP do Mikrotik ao cliente
     socket.emit('mikrotikIp', mikrotik.host);
 
     let currentInterface = 'ether1';
@@ -39,9 +41,18 @@ io.on('connection', (socket) => {
             const data = await mikrotik.getBandwidth(currentInterface);
             socket.emit('bandwidth', data);
         } catch (err) {
-            console.error('Erro ao buscar dados:', err.message);
+            console.error('Erro ao buscar dados do MikroTik:', err.message);
+
+            // Tenta reconectar se perder a conexão
+            mikrotik.connected = false;
+            try {
+                await mikrotik.connect();
+                console.log('Reconectado ao MikroTik');
+            } catch (connectErr) {
+                console.error('Falha ao reconectar ao MikroTik:', connectErr.message);
+            }
         }
-    }, 1000);
+    }, 1000); // Atualiza a cada 1 segundo
 
     socket.on('disconnect', () => {
         clearInterval(interval);
@@ -49,4 +60,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => console.log('Servidor iniciado na porta 3000'));
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Servidor iniciado na porta ${PORT}`);
+});

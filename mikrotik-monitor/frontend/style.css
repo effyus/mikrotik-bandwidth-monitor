@@ -34,14 +34,6 @@ body {
     border-radius: 0.25rem;
     background-color: #f9fbfd;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-#pause-btn:hover {
-    background-color: #e5e7eb;
-}
-
-.container-ip-interface,
 .container-bottom {
     display: flex;
     justify-content: center;
